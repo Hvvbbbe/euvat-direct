@@ -211,7 +211,18 @@ MIT License
     toggleSubmit();
     iter();
   };
-
+  
+  function check()
+		{
+			if (vatno.slice(0, 2).toUpperCase() == "PL")
+			{
+				document.getElementById("reverse").innerHTML = '<span style="color: green"> There is no reverse charged.</p>';
+			} else
+			{
+				document.getElementById("reverse").innerHTML = '<span style="color: red"> There is reverse charged.</p>';
+			}
+		};
+  
   $(document).ready(function() {
     $('#vatform').submit(function(e) {
       e.preventDefault();
@@ -233,6 +244,10 @@ MIT License
         return results1;
       })());
     });
+    $('#reverse').submit(function(e) {
+		e.preventDefault();
+		check();
+	});
   });
 
 }).call(this);
