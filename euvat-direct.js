@@ -100,6 +100,14 @@ MIT License
     }
     showResult('<p>Checking...');
     toggleSubmit();
+    function checkReverse(){
+	if (vatno.slice(0, 2).toUpperCase() == "PL") {
+		return $('#reverse').html("<p> There is no reverse charged.</p>");
+	} 
+	else {
+		return $('#reverse').html("<p> There is reverse charged.</p>");
+	}
+     };
     viesRequest(vatno, function(err, res) {
       if (err) {
         if (err.includes('blocked')) {
@@ -110,6 +118,7 @@ MIT License
         }
       } else {
         showResult(["<p>The VAT number " + (res.valid ? '<strong>is' : 'is <strong>not') + " valid.</strong>", '<p>The full VAT response:', '<pre>', JSON.stringify(res, null, '  ', '</pre>')].join('\n'));
+	if(res.valid)checkReverse();      
       }
       toggleSubmit();
     });
@@ -212,17 +221,6 @@ MIT License
     iter();
   };
   
-  function check()
-		{
-			if (vatno.slice(0, 2).toUpperCase() == "PL")
-			{
-				document.getElementById("reverse").innerHTML = '<span style="color: green"> There is no reverse charged.</p>';
-			} else
-			{
-				document.getElementById("reverse").innerHTML = '<span style="color: red"> There is reverse charged.</p>';
-			}
-		};
-  
   $(document).ready(function() {
     $('#vatform').submit(function(e) {
       e.preventDefault();
@@ -244,10 +242,6 @@ MIT License
         return results1;
       })());
     });
-    $('#reverse').submit(function(e) {
-		e.preventDefault();
-		check();
-	});
   });
 
 }).call(this);
